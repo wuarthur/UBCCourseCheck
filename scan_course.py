@@ -4,7 +4,7 @@ import SMPT
 
 
 Courses = []
-User = ['email1','email 2']
+Users = ['email1','email 2']
 URLs = []
 class _CourseUrl:
     def __init__(self, dept, course, section):

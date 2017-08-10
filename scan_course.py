@@ -3,20 +3,31 @@ from bs4 import BeautifulSoup
 import SMPT
 
 
-Courses = []
-Users = ['email1','email 2']
-URLs = []
+
 class _CourseUrl:
     def __init__(self, dept, course, section):
         self.url= 'https://courses.students.ubc.ca/cs/main?pname=subjarea&tname=subjareas&req=5&dept=' + dept +'&course='+ course+ '&section=' + section
         self.name = dept + ' ' + course + ' ' + section
+
+
+
+Courses = []
+Users = []
+Entries = open('Courses.txt').read().split('\n')
+for line in Entries:
+    data=line.split(',')
+    print line
+    Users.append(data[0])
+
+
+URLs = []
 URLs.append(_CourseUrl('AANB','500','KRS'))
 URLs.append(_CourseUrl('GEM','520','101'))
-for course in URLs:
-    r = requests.get(course.url)
-    html_doc = r.text
-    if 'Total Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
-        SMPT._sendEmailToUsers(Users,course.name)
-    if 'General Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
-        print 'general'
+# for course in URLs:
+#     r = requests.get(course.url)
+#     html_doc = r.text
+#     if 'Total Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
+#         SMPT._sendEmailToUsers(Users,course.name)
+#     if 'General Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
+#         print 'general'
 

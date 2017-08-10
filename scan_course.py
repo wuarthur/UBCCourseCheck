@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import SMPT
 
 
+Courses = []
+User = ['email1','email 2']
 URLs = []
 class _CourseUrl:
     def __init__(self, dept, course, section):
@@ -14,7 +16,7 @@ for course in URLs:
     r = requests.get(course.url)
     html_doc = r.text
     if 'Total Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
-        SMPT._sendEmailToUsers(users,course.name)
+        SMPT._sendEmailToUsers(Users,course.name)
     if 'General Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
         print 'general'
 

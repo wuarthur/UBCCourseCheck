@@ -28,7 +28,7 @@ with open('users.pickle', 'rb') as handle:
 Courses = []
 
 for key, value in users_dict.iteritems():
-    user_email = value[0]
+    user_email = key
     course_list = value[1]
     for course in course_list:
         course_vals = course.split(',')
@@ -75,9 +75,55 @@ for key, value in users_dict.iteritems():
 for course in Courses:
     r = requests.get(course.CourseUrl.url)
     html_doc = r.text
-    if 'Total Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
-        #SMPT._sendEmailToUsers(course.users,course.name)
-        print 'sent Email'
-    if 'General Seats Remaining:</td><td align=&#39;left&#39;><strong>0' not in html_doc:
-        print 'general'
+    if 'General Seats Remaining' in html_doc:
+        available_seats = 0
+        html_doc_general = html_doc.splitlines()
+        for line in html_doc_general:
+            if 'General Seats Remaining' in line:
+                line = line.split("<strong>")
+                value = line[1].split("</strong>")
+                available_seats =  int(value[0])
+                print "General:" + str(available_seats)
+        if available_seats != 0:
+            SMPT._sendEmailToUsers(course.users,course.name)
+            print 'sent Email'
+            course_to_remove = course.dept + "," + course.course + "," + course.section + "," + course.SeatingType
+            for user in course.users:
+                for key,value in users_dict.iteritems():
+                    if key == str(user):
+                        user_course_list = users_dict[key][1]
+                        for course in user_course_list:
+                            if course == course_to_remove:
+                                user_course_list.remove(course)
+                                print "course removed"
+                                users_dict[key][1] = user_course_list
+
+            with open('users.pickle', 'wb') as handle:
+                pickle.dump(users_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    if 'Restricted Seats Remaining' in html_doc:
+        available_seats = 0
+        html_doc_restricted = html_doc.splitlines()
+        for line in html_doc_restricted:
+            if 'Restricted Seats Remaining*:' in line:
+                line = line.split("<strong>")
+                value = line[1].split("</strong>")
+                available_seats = int(value[0])
+                print "Restricted:" + str(available_seats)
+        if available_seats != 0:
+            # SMPT._sendEmailToUsers(course.users,course.name)
+            print 'sent Email'
+            course_to_remove = course.dept + "," + course.course + "," + course.section + "," + course.SeatingType
+            for user in course.users:
+                for key, value in users_dict.iteritems():
+                    if key == str(user):
+                        user_course_list = users_dict[key][1]
+                        for course in user_course_list:
+                            if course == course_to_remove:
+                                user_course_list.remove(course)
+                                print "course removed"
+                                users_dict[key][1] = user_course_list
+
+            with open('users.pickle', 'wb') as handle:
+                pickle.dump(users_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 

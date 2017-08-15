@@ -32,5 +32,6 @@ def _sendEmailToUsers(users,course):
     # ssl server doesn't support or need tls, so don't call server_ssl.starttls()
     for user in users:
         server_ssl.sendmail("smtpemail89098@gmail.com", user, course + ' has just opened up a spot!')
+        print 'sent email to ' + user
     #server_ssl.quit()
     server_ssl.close()

@@ -29,6 +29,7 @@ Courses = []
 
 for key, value in users_dict.iteritems():
     user_email = key
+    print value
     course_list = value[1]
     for course in course_list:
         course_vals = course.split(',')
@@ -101,7 +102,7 @@ for course in Courses:
             with open('users.pickle', 'wb') as handle:
                 pickle.dump(users_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    if 'Restricted Seats Remaining' in html_doc:
+    if ('Restricted Seats Remaining' in html_doc) and (course.SeatingType == "Any"):
         available_seats = 0
         html_doc_restricted = html_doc.splitlines()
         for line in html_doc_restricted:
@@ -125,5 +126,7 @@ for course in Courses:
                                 users_dict[key][1] = user_course_list
 
             with open('users.pickle', 'wb') as handle:
+                for key, value in users_dict.iteritems():
+                    print value
                 pickle.dump(users_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 

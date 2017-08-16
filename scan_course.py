@@ -22,6 +22,9 @@ class _Course:
         self.CourseUrl = CourseUrl
         self.users = []
 
+def _PrintEmail(users):
+    for user in users:
+        print 'sending email to ' + user
 with open('users.pickle', 'rb') as handle:
     users_dict = pickle.load(handle)
 
@@ -87,7 +90,7 @@ for course in Courses:
                 print "General:" + str(available_seats)
         if available_seats != 0:
             SMPT._sendEmailToUsers(course.users,course.name)
-            print 'sent Email'
+            _PrintEmail(course.users)
             course_to_remove = course.dept + "," + course.course + "," + course.section + "," + course.SeatingType
             for user in course.users:
                 for key,value in users_dict.iteritems():
@@ -112,8 +115,8 @@ for course in Courses:
                 available_seats = int(value[0])
                 print "Restricted:" + str(available_seats)
         if available_seats != 0:
-            # SMPT._sendEmailToUsers(course.users,course.name)
-            print 'sent Email'
+            SMPT._sendEmailToUsers(course.users,course.name)
+            _PrintEmail(course.users)
             course_to_remove = course.dept + "," + course.course + "," + course.section + "," + course.SeatingType
             for user in course.users:
                 for key, value in users_dict.iteritems():

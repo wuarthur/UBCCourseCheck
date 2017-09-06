@@ -1,10 +1,10 @@
 import pickle
 
-users = {'Henry89098@gmail.com': ['Hantao_Mai',['CPSC,121,101,General','CPSC,221,101,Any']],
-         'henry78987@gmail.com': ['Yi_Yang',['CPSC,121,101,General','CPSC,565,121,Any']],
+users = {'Henry89098@gmail.com': ['Hantao_Mai',['CPSC,121,999,General','CPSC,221,999,Any']],
          'yaqixyz@gmail.com': ['y',['EOSC,326,99A,General']],
          'shkim7534@gmail.com': ['y',['CPSC,310,L1D,Any']],
-         'Yonni.luu@gmail.com': ['Yonni_Luu',['GERM,433,902,General']]}
+         'Yonni.luu@gmail.com': ['Yonni_Luu',['GERM,433,902,General']],
+		 'james.k.1452@hotmail.com': ['tanboi',['PHYS,219,L1A,Any']]}
 
 
 with open('users.pickle', 'wb') as handle:
